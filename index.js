@@ -1,15 +1,20 @@
 import express from "express";
 import { MongoClient, ObjectId } from "mongodb";
+
 const app = express();
-const url =
-  "mongodb+srv://sivaganeshnatarajavel:YA7ku2uZwCxmXyyx@cluster0.hlw8qs5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const url ="mongodb+srv://sivaganeshnatarajavel:YA7ku2uZwCxmXyyx@cluster0.hlw8qs5.mongodb.net";
+
 const client = new MongoClient(url);
 await client.connect();
 console.log("Connected to Mongo");
 
+const PORT = 5000;
+
 app.use(express.json());
 
-app.get("/", (req, res) => {
+
+
+app.get("/", function (req, res) {
   res.send("Hello world");
 });
 
@@ -68,6 +73,6 @@ app.delete("/delete/:id", async (req, res) => {
   res.send(deleteMethod);
 });
 
-app.listen(4000, () => {
+app.listen(PORT || 4000, () => {
   console.log("listening on port 4000");
 });
