@@ -6,9 +6,8 @@ const url =
 const client = new MongoClient(url);
 await client.connect();
 console.log("Connected to Mongo");
-app.listen(8080, () => {
-  console.log("listening on port 8080");
-});
+
+
 app.get("/", (req, res) => {
   res.send("<h1>Vanakkam da mapla</h1>");
 });
@@ -59,3 +58,6 @@ app.delete("/delete/:id", async(req,res)=>{
     res.send(deleteMethod);
 })
 
+app.listen(8080, () => {
+    console.log("listening on port 8080");
+  });
