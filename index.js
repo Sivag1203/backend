@@ -1,5 +1,6 @@
 import express from "express";
 import { MongoClient, ObjectId } from "mongodb";
+import cors from "cors";
 
 const app = express()
 const url ="mongodb+srv://sivaganeshnatarajavel:sivaganesh123@cluster0.hlw8qs5.mongodb.net";
@@ -11,7 +12,7 @@ console.log("Connected to Mongo");
 const PORT = 5000;
 
 app.use(express.json());
-
+app.use(cors());
 
 
 app.get("/", function (req, res) {
