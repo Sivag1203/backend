@@ -9,7 +9,7 @@ console.log("Connected to Mongo");
 app.listen(8080, () => {
   console.log("listening on port 8080");
 });
-app.get("/vanakkam", (req, res) => {
+app.get("/", (req, res) => {
   res.send("<h1>Vanakkam da mapla</h1>");
 });
 
