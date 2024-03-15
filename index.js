@@ -1,8 +1,8 @@
 import express from "express";
 import { MongoClient, ObjectId } from "mongodb";
 
-const app = express();
-const url ="mongodb+srv://sivaganeshnatarajavel:YA7ku2uZwCxmXyyx@cluster0.hlw8qs5.mongodb.net";
+const app = express()
+const url ="mongodb+srv://sivaganeshnatarajavel:sivaganesh123@cluster0.hlw8qs5.mongodb.net";
 
 const client = new MongoClient(url);
 await client.connect();
@@ -18,7 +18,7 @@ app.get("/", function (req, res) {
   res.send("Hello world");
 });
 
-app.post("/post", express.json(), async (req, res) => {
+app.post("/post", async (req, res) => {
   const getPost = req.body;
   const sendMethod = await client
     .db("CRUD")
