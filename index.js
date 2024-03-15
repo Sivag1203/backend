@@ -7,8 +7,10 @@ const client = new MongoClient(url);
 await client.connect();
 console.log("Connected to Mongo");
 
+app.use(express.json());
+
 app.get("/", (req, res) => {
-  res.send("<h1>Vanakkam da mapla</h1>");
+  res.send("Hello world");
 });
 
 app.post("/post", express.json(), async (req, res) => {
@@ -20,7 +22,7 @@ app.post("/post", express.json(), async (req, res) => {
   res.send(sendMethod);
 });
 
-app.post("/postmany", express.json(), async (req, res) => {
+app.post("/postmany", async (req, res) => {
   const getPost = req.body;
   const sendMethod = await client
     .db("CRUD")
@@ -29,7 +31,7 @@ app.post("/postmany", express.json(), async (req, res) => {
   res.send(sendMethod);
 });
 
-app.get("/get", express.json(), async (req, res) => {
+app.get("/get", async (req, res) => {
   const getMethod = await client
     .db("CRUD")
     .collection("data")
@@ -47,7 +49,7 @@ app.get("/getone/:id", async (req, res) => {
   res.send(getMethod);
 });
 
-app.put("/update/:id", express.json(), async (req, res) => {
+app.put("/update/:id", async (req, res) => {
   const { id } = req.params;
   const getpost = req.body;
   const updateMethod = await client
