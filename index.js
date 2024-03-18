@@ -1,25 +1,34 @@
 import express from "express";
 import { MongoClient, ObjectId } from "mongodb";
 import cors from "cors";
-import { get } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
 const app = express();
 const url =
   "mongodb+srv://sivaganeshnatarajavel:sivaganesh123@cluster0.hlw8qs5.mongodb.net";
 
 const client = new MongoClient(url);
-await client.connect();
-console.log("Connected to Mongo");
 
-const PORT = 4000;
+async function connectToDatabase() {
+  try {
+    await client.connect();
+    console.log("Connected to Mongo");
+  } catch (error) {
+    console.error("Error connecting to Mongo:", error);
+  }
+}
+
+connectToDatabase();
+
+const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(cors());
 
 const auth = (req, res, next) => {
   try {
-    const token = req.headers("backend-token");
+    const token = req.headers["backend-token"];
     jwt.verify(token, "student");
     next();
   } catch (error) {
@@ -52,7 +61,7 @@ app.post("/postmany", async (req, res) => {
   res.status(201).send(sendMethod);
 });
 
-app.get("/get",auth, async (req, res) => {
+app.get("/get", auth, async (req, res) => {
   const getMethod = await client
     .db("CRUD")
     .collection("data")
@@ -106,10 +115,7 @@ app.post("/register", async function (req, res) {
       .collection("private")
       .insertOne({ username: username, password: hashpass, email: email });
     res.status(201).send(regmeth);
-    // console.log(hashpass);
   }
-
-  // console.log(userfind);
 });
 
 app.post("/login", async (req, res) => {
@@ -127,14 +133,11 @@ app.post("/login", async (req, res) => {
     } else {
       res.status(400).send("Invalid password");
     }
-    // res.status(200);
   } else {
     res.status(400).send(`User not found`);
   }
-  // const salt = await bcrypt.genSalt(10);
-  // const hashpass = await bcrypt.hash(password, salt);
-  // console.log({ email, hashpass });
 });
-app.listen(PORT || 4000, () => {
-  console.log("listening on port 4000");
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
